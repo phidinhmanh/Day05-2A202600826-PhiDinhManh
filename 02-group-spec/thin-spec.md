@@ -1,86 +1,76 @@
-# Thin SPEC — RiskMap Weekend Reporter
+# Thin SPEC cuối Day 05 - AI hỗ trợ phân tích đánh giá khách hàng cho chuỗi nhà hàng
 
-Bản đặc tả tối giản chốt thiết kế và phạm vi sản phẩm phục vụ cho việc lập trình prototype trong Day 06.
-
----
+Thin SPEC này là bản cam kết đủ rõ để sáng Day 06 nhóm build prototype ngay. Ý tưởng gốc nằm trong `explore.md`.
 
 ## 1. Track, product/app và user
 
-*   **Track:** AI-powered Business Tool / Operations Management
-*   **Product/app thật:** Ứng dụng Quản lý vận hành & Giám sát chất lượng dịch vụ chuỗi cửa hàng dịch vụ (F&B, Spa, Bán lẻ).
-*   **User cụ thể:** Chủ chuỗi cửa hàng (Chain Owner) – người sở hữu từ 3 chi nhánh trở lên, quản lý gián tiếp qua các Quản lý cửa hàng (Store Manager), thường xuyên bận rộn và không thể tự đọc từng review của khách hàng.
-*   **Nhóm có phải user thật không?** Không. Nhưng nhóm đã phỏng vấn trực tiếp chủ chuỗi cafe/trà sữa thực tế để làm nguồn đối chiếu và nắm bắt pain point.
+**Track:** Food & Local Delivery
 
----
+**Product/app thật:** Workflow quản lý review từ Google Maps, Facebook, Shoppee Food hoặc file review nội bộ; prototype mô phỏng dashboard/báo cáo nội bộ cho chủ/quản lý chuỗi nhà hàng.
+
+**User cụ thể:** Quản lý vận hành hoặc chủ chuỗi nhà hàng có nhiều chi nhánh, cần theo dõi chất lượng đồ ăn, dịch vụ, không gian và giá cả từ review khách hàng.
+
 
 ## 2. Evidence summary
 
-| Evidence (Bằng chứng) | Nguồn (Source) | User/pain nói lên điều gì? | SPEC phải đổi gì? |
+| Evidence | Nguồn | User/pain nói lên điều gì? | SPEC phải đổi gì? |
 |---|---|---|---|
-| Bật thông báo đẩy real-time cho hàng chục review mỗi ngày dẫn đến alert fatigue, chủ chuỗi tắt hết thông báo và bỏ lỡ các review nghiêm trọng. | Self-use (Giả lập quản lý 5 cửa hàng) | Nhận thông báo lẻ tẻ quá nhiều gây loãng thông tin, chủ chuỗi cần báo cáo định kỳ hơn là thời gian thực. | Bỏ tính năng alert real-time. Thay thế bằng báo cáo tổng hợp cuối tuần định kỳ (Weekend Report). |
-| Chủ chuỗi chia sẻ: *"Chỉ biết quán có vấn đề khi khách đã đăng bài bóc phốt lên hội nhóm review ăn uống."* | Phỏng vấn trực tiếp chủ chuỗi cafe | Thiếu tính chủ động kiểm soát chất lượng vận hành từ sớm, chỉ đi giải quyết hậu quả khủng hoảng (cứu cháy). | AI tập trung phân tích text review để gọi tên các lỗi vận hành cốt lõi, giúp chấn chỉnh sớm. |
-| Nhiều review tiêu cực nhưng ngắn ngủi, chung chung như *"Tệ"*, *"Chán"* khiến AI khó phân loại. | Review thực tế trên Google Maps/Facebook | AI có nguy cơ phân loại sai hoặc bỏ sót nếu dữ liệu thô quá ít ngữ cảnh. | Bổ sung nhãn cảnh báo cho các review thiếu thông tin và cơ chế gán nhãn thủ công (Correction). |
-
----
+| Quản lý chuỗi nhà hàng cần thấu hiểu khách hàng, giữ chất lượng đồ ăn đồng đều, chuẩn hóa phục vụ và đồng bộ không gian trải nghiệm. | Kendesign - https://thicongnhahang.vn/5-nguyen-tac-quan-ly-chuoi-nha-hang-hieu-qua-chuyen-nghiep.html | Vấn đề không chỉ là đọc review, mà là phát hiện chi nhánh nào đang lệch chuẩn vận hành. | Phân loại review theo nhóm vận hành: FOOD, SERVICE, AMBIENCE, PRICE, OTHER. |
+| Yelp có tỷ lệ lớn review 4-5 sao; khách dùng rating filter khi tìm nhà hàng; khách để lại review sau cả trải nghiệm tích cực và tiêu cực. | ReviewTrackers - https://www.reviewtrackers.com/blog/restaurant-star-rating/ | Điểm sao là tín hiệu nhanh nhưng không đủ tin cậy để biết vấn đề vận hành cụ thể. | Không lấy star rating làm kết luận chính; AI phải trích theme lặp lại và quote gốc. |
 
 ## 3. Pain statement
 
-> **Chủ chuỗi cửa hàng** đang gặp khó khăn ở **bước theo dõi chất lượng vận hành thực tế tại các chi nhánh**, vì **họ không thể đọc hàng trăm review mỗi ngày từ nhiều nguồn (Google Maps, Fanpage, Foody) và dễ bị quá tải thông tin (alert fatigue) dẫn đến việc bỏ sót các lỗi hệ thống nghiêm trọng**, dẫn tới **chất lượng dịch vụ đi xuống và chỉ biết sự cố khi khách hàng đã đăng bài bóc phốt công khai trên mạng xã hội**.
-> Bằng chứng chính là các phỏng vấn thực tế từ chủ chuỗi quán trà sữa mệt mỏi vì đi dập khủng hoảng truyền thông và trải nghiệm tự dùng thử nhận hàng chục thông báo rác mỗi ngày.
-
----
-
-## 4. Build slice (Lát cắt prototype Day 06)
-
 ```text
-Cho [chủ chuỗi cửa hàng] đang cần [đọc báo cáo tổng hợp lỗi cuối tuần của một chi nhánh],
-prototype sẽ dùng AI để [đọc toàn bộ review tiêu cực trong tuần, phân nhóm (clustering) và đúc kết thành 3 vấn đề vận hành nổi cộm nhất],
-tạo ra [một đoạn văn bản Markdown tổng hợp gửi qua email/Telegram gồm: Tên nhóm lỗi + Tỷ lệ lặp lại + Câu quote chứng minh của khách],
-và xử lý [lỗi gom nhóm sai ngữ cảnh (False Correlation)] bằng cách [bắt buộc hiển thị nguyên văn (Exact Quotes) tối thiểu 2 câu review thô dưới mỗi nhóm lỗi để đối chiếu nhanh].
+User là quản lý vận hành chuỗi nhà hàng đang gặp khó ở bước kiểm tra chất lượng từng chi nhánh từ review khách hàng,
+vì review nằm rải rác, số lượng lớn, điểm sao không chỉ ra lỗi vận hành cụ thể, và việc tự đọc rồi viết báo cáo mất nhiều thời gian,
+dẫn tới chủ chuỗi chậm phát hiện chi nhánh đang xuống chất lượng hoặc phát hiện nhưng không biết vấn đề chính là đồ ăn, dịch vụ, không gian hay giá cả.
+Bằng chứng chính là nguồn về quản lý chuỗi nhà hàng cần kiểm soát chất lượng đồng đều và nguồn ReviewTrackers cho thấy rating chỉ là tín hiệu thô, không đủ thay thế phân tích nội dung review.
 ```
 
----
+## 4. Build slice
+
+```text
+Cho quản lý vận hành chuỗi nhà hàng đang đọc review tiêu cực trong tuần của một chi nhánh,
+prototype sẽ dùng AI để phân loại review theo FOOD / SERVICE / AMBIENCE / PRICE / OTHER và gom thành 3 vấn đề nổi cộm nhất,
+tạo ra một báo cáo Markdown gồm tên vấn đề, tỷ lệ/lượt nhắc, mức rủi ro, chi nhánh liên quan và 2-3 quote gốc của khách,
+và xử lý failure mode phân loại/gom nhóm sai bằng cách hiển thị quote gốc, đánh dấu low-confidence và cho quản lý gắn nhãn thủ công.
+```
 
 ## 5. Auto/Aug decision
 
-*   [x] **Augmentation:** AI đóng vai trò là Trợ lý gợi ý (Augmented Decision). AI chỉ phân tích, gom nhóm và gọi tên lỗi. Chủ chuỗi giữ toàn quyền quyết định có xuống kiểm tra chi nhánh đó hay không. AI tuyệt đối **không tự động gửi** báo cáo này cho Quản lý cửa hàng (Store Manager).
-*   [ ] **Conditional automation**
-*   [ ] **Automation**
+- [x] **Augmentation:** AI gợi ý/draft/phân loại, user quyết cuối.
+- [ ] **Conditional automation:** AI tự làm trong case hẹp; case mơ hồ/rủi ro chuyển người.
+- [ ] **Automation:** AI tự quyết và tự hành động.
 
-*   **Lý do chọn:** Các quyết định nhân sự và chấn chỉnh cửa hàng rất nhạy cảm. AI chỉ giúp tổng hợp thông tin thô để giảm tải cho chủ chuỗi, con người vẫn phải là người ra quyết định cuối cùng dựa trên các yếu tố thực tế khác ngoài review.
-*   **Human role:** **Decider & Trainer** (Chủ chuỗi duyệt thông tin và huấn luyện lại AI thông qua tính năng sửa lỗi).
+**Lý do chọn:** Review khách hàng có ngữ cảnh, cảm xúc, tiếng lóng và khả năng mỉa mai. Nếu AI tự động kết luận hoặc gửi cảnh báo cho store manager, rủi ro false alarm cao. Prototype nên để AI giảm thời gian đọc và tổng hợp, nhưng con người vẫn kiểm tra trước khi hành động.
 
----
+**Human role:** Reviewer, decider, trainer. Quản lý kiểm tra quote gốc, quyết định có điều tra chi nhánh hay không, và sửa nhãn khi AI phân loại sai.
 
-## 6. Four paths (Thiết kế 4 kịch bản trải nghiệm)
+## 6. Four paths
 
-| Path | Kịch bản Prototype phải thể hiện | Trải nghiệm UI/UX trên Báo cáo |
-|---|---|---|
-| **Happy** | Có 15 review chê điều hòa hỏng tại chi nhánh A. AI phân nhóm chính xác và tóm tắt thành lỗi vận hành cụ thể. | Báo cáo Markdown hiển thị: **"1. Vấn đề nổi cộm: Hạ tầng - Máy lạnh chảy nước ở tầng 2 (15 lượt nhắc)"** kèm 2 câu quote của khách. |
-| **Low-confidence** | Có các review ngắn và chung chung như *"Tệ"*, *"Thái độ không tốt"* (không rõ nhân viên nào, lỗi gì cụ thể). AI phân vân. | Gom các review này vào nhóm lỗi kèm nhãn cảnh báo: **"[Hệ thống chưa đủ dữ liệu để phân loại chính xác - Cần xem thêm review thô]"** để chủ chuỗi tự bấm vào xem chi tiết nếu muốn. |
-| **Failure** | Khách chê bằng văn hóa bản địa, từ lóng mới (ví dụ: *"nhân viên báo quá báo"*, *"quán phè phỡn"*). AI không hiểu ngữ cảnh và bỏ sót, không đưa vào báo cáo tuần. | Review bị trôi mất và nằm ngoài báo cáo tổng hợp. |
-| **Correction** | Chủ chuỗi kiểm tra file log thô của tuần, phát hiện các review bị bỏ sót hoặc gom nhóm sai. | Chủ chuỗi bấm nút **[Gắn nhãn thủ công]** ngay bên cạnh review thô để ép review đó vào nhóm lỗi tương ứng, giúp AI tự học và nhận diện đúng cho các tuần sau. |
-
----
+| Path | Prototype phải thể hiện gì? |
+|---|---|
+| Happy | Nhiều review cùng nhắc "đợi món lâu", "nhân viên chậm", "phục vụ thiếu chủ động" -> AI gom thành nhóm SERVICE: thời gian phục vụ chậm, hiển thị số lượt nhắc, chi nhánh, mức rủi ro và quote gốc. |
+| Low-confidence | Review quá ngắn như "Tệ", "Không quay lại", hoặc câu có nhiều nghĩa -> AI không ép vào nhóm chắc chắn; đưa vào mục "Chưa đủ dữ liệu", show review thô và yêu cầu người quản lý xem lại. |
+| Failure | AI gom sai ngữ cảnh, ví dụ review khen "nhân viên nhiệt tình như người nhà" và review chê "nhân viên nói chuyện việc nhà quá to" vào cùng nhóm "nhân viên thiếu chuyên nghiệp". |
+| Correction | Quản lý bấm "Gắn nhãn thủ công" hoặc "Tách khỏi nhóm này", chọn FOOD / SERVICE / AMBIENCE / PRICE / OTHER, rồi prototype lưu correction vào log để dùng cho lần chạy sau. |
 
 ## 7. Failure mode nguy hiểm nhất
 
 ```text
-Nếu AI [gom nhóm sai ngữ cảnh (False Correlation)],
-AI có thể [gom các từ không liên quan thành một lỗi hệ thống nguy hiểm (Ví dụ: Khách khen "Nhân viên nhiệt tình như người nhà" và khách chê "Nhân viên nói chuyện việc nhà quá to" đều bị AI gom chung vào nhóm lỗi #nhan_vien_thieu_chuyen_nghiep)],
-hậu quả là [chủ chuỗi đánh giá sai lệch năng lực của nhân viên, gây ức chế nội bộ hoặc đưa ra các quyết định phạt oan].
-Prototype sẽ xử lý bằng cách [bắt buộc trích dẫn nguyên văn (Exact Quotes) tối thiểu 2 câu review thô của khách ngay dưới mỗi tiêu đề nhóm lỗi]. Chủ chuỗi chỉ cần liếc mắt qua các câu quote là có thể đối chiếu ngay AI gom nhóm đúng hay sai ngữ cảnh.
-Owner kiểm thử path này là [Thành viên E - Phụ trách Test/Demo].
+Nếu user nhận báo cáo tổng hợp cuối tuần và chỉ nhìn headline,
+AI có thể gom nhóm sai ngữ cảnh hoặc tạo false correlation giữa các review không cùng nguyên nhân,
+hậu quả là quản lý hiểu sai vấn đề vận hành, kiểm tra nhầm chi nhánh/bộ phận, hoặc gây áp lực sai cho store manager.
+Prototype sẽ xử lý bằng show source: dưới mỗi nhóm lỗi bắt buộc có quote gốc, confidence label, số review liên quan, và nút manual relabel/tách nhóm.
+Owner kiểm thử path này là [TBD - thành viên phụ trách test/failure path].
 ```
-
----
 
 ## 8. Owner plan cho sáng Day 06
 
 | Thành viên | Việc phụ trách | Bằng chứng cần có trong repo |
 |---|---|---|
-| **Thành viên A** | Research / evidence | File `evidence-pack.md` hoàn chỉnh, chứa dữ liệu mock review thô của các cửa hàng để nạp cho AI. |
-| **Thành viên B** | SPEC / Prompt engineering | File `thin-spec.md` chi tiết và các prompt system dùng để phân nhóm (clustering) và tóm tắt (summarize) review. |
-| **Thành viên C** | Frontend Prototype / Telegram Integration | Giao diện mockup Telegram Bot nhận báo cáo Markdown định kỳ từ hệ thống. |
-| **Thành viên D** | AI Logic / Backend Mock | Server Python/Node.js nhận review thô, chạy prompt LLM phân tích, phân loại nhóm lỗi và trả ra output Markdown. |
-| **Thành viên E** | Test / Demo script | Kịch bản demo 3 phút: Nạp file review thô -> Gửi báo cáo qua Telegram -> Demo case Low-confidence và kiểm thử Correction (gán nhãn sửa đổi). |
+| Đỗ Minh Phúc - 2A202600585 | Research / evidence | Link nguồn Kendesign, ReviewTrackers, bộ review mẫu hoặc screenshot workflow mô phỏng. |
+| Nguyen Van Minh - 2A202600904 | Data setup | Customer review analysis by LLM |
+| Thanh Điệp - 2A202600636 | Prototype | Demo dashboard/chatbot nhận file review mẫu, phân loại review và tạo báo cáo Markdown. |
+| Lê Thanh Minh-2A202600872 | Tool design | Design tool, function for AI Agent |
+| Phí Đình Mạnh - 2A202600826 | Demo script / repo | Script demo 3-5 phút: input review -> AI report -> kiểm quote -> sửa nhãn -> xem report cập nhật. |
